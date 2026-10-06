@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ahmed Abohamud — DevOps Specialist</title>
+  <meta name="description" content="Portfolio of Ahmed Abohamud, DevOps Specialist — cloud-ready platforms, CI/CD, and offline-first Arabic-friendly mobile apps." />
+  <meta name="theme-color" content="#0d3a66" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☁️</text></svg>" />
+</head>
+<body>
+  <canvas id="sky" aria-hidden="true"></canvas>
+  <div class="sun" aria-hidden="true"></div>
+
+  <header class="nav">
+    <a class="brand" href="#top">
+      <svg class="brand-cloud" viewBox="0 0 64 40" aria-hidden="true"><path d="M18 36c-7 0-12-4.5-12-11 0-5.5 4-9.5 9-10C17 8 23 4 30 4c8 0 14 5 16 11 6 .5 10 4.5 10 10 0 6.5-5 11-12 11z"/></svg>
+      <span>Ahmed&nbsp;Abohamud</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills &amp; Education</a>
+      <a href="#contact" class="nav-cta">Contact</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <p class="eyebrow reveal">AHMED ABOHAMUD · PORTFOLIO</p>
+      <h1 class="reveal">DevOps <span class="grad">Specialist</span></h1>
+      <p class="tagline reveal">
+        Cloud infrastructure and IT ready — networking fundamentals, Linux servers and CI/CD
+        pipelines by day, <em>offline-first</em> Arabic-friendly mobile apps by night.
+        Every project below runs with no internet, no accounts, no excuses.
+      </p>
+      <div class="hero-ctas reveal">
+        <a class="btn primary" href="#projects">View projects ↓</a>
+        <a class="btn ghost" href="mailto:ahmedabohamud@gmail.com">ahmedabohamud@gmail.com</a>
+      </div>
+      <ul class="hero-stats reveal">
+        <li><strong>5</strong><span>products shipped</span></li>
+        <li><strong>100%</strong><span>offline-first</span></li>
+        <li><strong>AR + EN</strong><span>bilingual UIs</span></li>
+        <li><strong>Web + APK</strong><span>every build</span></li>
+      </ul>
+      <div class="scroll-hint" aria-hidden="true">☁</div>
+    </section>
+
+    <!-- ============ PROJECTS ============ -->
+    <section id="projects" class="section">
+      <h2 class="reveal">Featured builds</h2>
+      <p class="section-sub reveal">Real products extracted from my dev workspace — each card shows the app
+        on desktop and on a phone. Open a gallery to browse every screen, or watch the launch films.</p>
+
+      <div class="grid">
+
+        <!-- NovaPOS -->
+        <article class="card reveal" id="novapos">
+          <div class="device-duo">
+            <figure class="device browser">
+              <span class="device-bar"><i></i><i></i><i></i></span>
+              <img src="./media/shots/novapos/01-pos-initial.png" alt="NovaPOS cashier register on desktop" loading="lazy" />
+            </figure>
+            <figure class="device phone">
+              <img src="./media/shots/novapos/14-mobile-pos.png" alt="NovaPOS on a phone" loading="lazy" />
+            </figure>
+          </div>
+          <div class="card-body">
+            <div class="card-head">
+              <h3>NovaPOS</h3>
+              <span class="badge">Web + Android</span>
+            </div>
+            <p class="card-desc">A cross-platform point-of-sale system: cashier register, password-gated admin panel,
+              product catalog, receipt-photo gallery, sales analytics and <code>.xlsx</code> exports — wrapped for Android
+              with Capacitor.</p>
+            <ul class="tags">
+              <li>Next.js</li><li>React 19</li><li>Prisma + SQLite</li><li>JWT auth</li><li>Recharts</li><li>SheetJS</li><li>Capacitor 8</li>
+            </ul>
+            <div class="card-actions">
+              <button class="btn small" type="button" data-gallery="novapos">🖼️ Gallery <span class="count">21</span></button>
+              <a class="btn small accent" href="./media/launches/novapos-showroom/NovaPOS-Showroom.html" target="_blank" rel="noopener">↗ Showroom (EN)</a>
+              <a class="btn small accent" href="./media/launches/novapos-showroom/NovaPOS-Showroom-AR.html" target="_blank" rel="noopener" dir="rtl">↗ معرض المزايا</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Chromaflow -->
+        <article class="card reveal" id="chromaflow">
+          <div class="device-duo">
+            <figure class="device browser">
+              <span class="device-bar"><i></i><i></i><i></i></span>
+              <img src="./media/shots/chromaflow/desktop.png" alt="Chromaflow year canvas on desktop" loading="lazy" />
+            </figure>
+            <figure class="device phone">
+              <img src="./media/shots/chromaflow/mobile.png" alt="Chromaflow on a phone" loading="lazy" />
+            </figure>
+          </div>
+          <div class="card-body">
+            <div class="card-head">
+              <h3>Chromaflow</h3>
+              <span class="badge">Offline PWA + APK</span>
+            </div>
+            <p class="card-desc">Your year is a canvas: every quarter-hour is a paintable circle, painted through
+              Pomodoro focus sessions or drag-brushing in five life-domain colors. Journal with photos, offline
+              analytics, Arabic RTL, fully installable.</p>
+            <ul class="tags">
+              <li>Next.js 14</li><li>TypeScript</li><li>Zustand</li><li>Dexie.js</li><li>next-pwa</li><li>Recharts</li><li>Framer Motion</li>
+            </ul>
+            <div class="card-actions">
+              <button class="btn small" type="button" data-gallery="chromaflow">🖼️ Gallery <span class="count">9</span></button>
+              <button class="btn small accent" type="button" data-video="./media/videos/chromaflow-launch.mp4">▶ Launch film</button>
+              <button class="btn small accent" type="button" data-video="./media/videos/chromaflow-launch-ar.mp4" dir="rtl">▶ فيلم الإطلاق</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Enjazatec -->
+        <article class="card reveal" id="enjazatec">
+          <div class="device-duo">
+            <figure class="device browser">
+              <span class="device-bar"><i></i><i></i><i></i></span>
+              <img src="./media/shots/enjazatec-app/desktop.png" alt="Enjazatec habit garden on desktop" loading="lazy" />
+            </figure>
+            <figure class="device phone">
+              <img src="./media/shots/enjazatec-app/mobile.png" alt="Enjazatec habit garden on a phone" loading="lazy" />
+            </figure>
+          </div>
+          <div class="card-body">
+            <div class="card-head">
+              <h3>إنجازاتك · Enjazatec</h3>
+              <span class="badge">Arabic-first</span>
+            </div>
+            <p class="card-desc">An Arabic habit garden: every task you finish waters one of five plants — lotus, palm,
+              neem, wheat, jasmine. Ships with a Pomodoro focus timer, a private finance ledger, and a cinematic
+              HTML5 canvas launch page (playable below).</p>
+            <ul class="tags">
+              <li>Vite</li><li>TypeScript</li><li>Canvas 2D</li><li>Capacitor</li><li>RTL typography</li>
+            </ul>
+            <div class="card-actions">
+              <button class="btn small" type="button" data-gallery="enjazatec">🖼️ Gallery <span class="count">7</span></button>
+              <a class="btn small accent" href="./media/launches/enjazatec/index.html" target="_blank" rel="noopener">↗ Live launch page</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Labatak -->
+        <article class="card reveal" id="labatak">
+          <div class="device-duo">
+            <figure class="device browser">
+              <span class="device-bar"><i></i><i></i><i></i></span>
+              <img src="./media/shots/labatak/desktop.png" alt="Labatak party games on desktop" loading="lazy" />
+            </figure>
+            <figure class="device phone">
+              <img src="./media/shots/labatak/mobile.png" alt="Labatak party games on a phone" loading="lazy" />
+            </figure>
+          </div>
+          <div class="card-body">
+            <div class="card-head">
+              <h3>لعبتك · Labatak</h3>
+              <span class="badge">Zero network calls</span>
+            </div>
+            <p class="card-desc">An offline-first party-games collection for one device passed around the table:
+              six games — UNO, word questions, the spy, air hockey, penalties, chess — with four themes,
+              hand-drawn SVG ornaments and runtime-synthesized sound effects.</p>
+            <ul class="tags">
+              <li>Vite</li><li>Strict TypeScript</li><li>Howler.js</li><li>i18next</li><li>@capacitor/motion</li>
+            </ul>
+            <div class="card-actions">
+              <button class="btn small" type="button" data-gallery="labatak">🖼️ Gallery <span class="count">2</span></button>
+            </div>
+          </div>
+        </article>
+
+        <!-- School system -->
+        <article class="card reveal" id="school">
+          <div class="device-duo">
+            <figure class="device browser">
+              <span class="device-bar"><i></i><i></i><i></i></span>
+              <img src="./media/shots/school/desktop.png" alt="School management dashboard on desktop" loading="lazy" />
+            </figure>
+            <figure class="device phone">
+              <img src="./media/shots/school/mobile.png" alt="School management dashboard on a phone" loading="lazy" />
+            </figure>
+          </div>
+          <div class="card-body">
+            <div class="card-head">
+              <h3>School Management System</h3>
+              <span class="badge">Serves a real school</span>
+            </div>
+            <p class="card-desc">A fully offline Arabic school system for Hussein Abohamud Educational Foundation
+              (Kassala, Sudan): 24 classrooms, students, attendance grids, homework tracking, payments and
+              CSV import/export — in Arabic RTL, packaged for mobile.</p>
+            <ul class="tags">
+              <li>Express</li><li>better-sqlite3</li><li>Vanilla JS</li><li>RTL UI</li><li>CSV pipelines</li><li>Capacitor</li>
+            </ul>
+            <div class="card-actions">
+              <button class="btn small" type="button" data-gallery="school">🖼️ Gallery <span class="count">2</span></button>
+            </div>
+          </div>
+        </article>
+
+        <!-- DEV Guide -->
+        <article class="card reveal doc-card" id="devguide">
+          <div class="device-duo single">
+            <figure class="device browser">
+              <span class="device-bar"><i></i><i></i><i></i></span>
+              <img src="./media/shots/devguide/preview.png" alt="DEV guide document preview" loading="lazy" />
+            </figure>
+          </div>
+          <div class="card-body">
+            <div class="card-head">
+              <h3>D:\DEV Engineering Guide</h3>
+              <span class="badge">Docs</span>
+            </div>
+            <p class="card-desc">The runbook behind every project above: dev-environment setup, Capacitor Android
+              build pipeline, Caddy reverse-proxy deployment, and PWA hosting — written as a printable HTML
+              document and PDF.</p>
+            <ul class="tags">
+              <li>Technical writing</li><li>Runbooks</li><li>HTML</li><li>PDF</li><li>Caddy</li>
+            </ul>
+            <div class="card-actions">
+              <a class="btn small" href="./media/docs/DEV-GUIDE.html" target="_blank" rel="noopener">↗ Read the guide</a>
+              <a class="btn small" href="./media/docs/DEV-GUIDE.pdf" download>⬇ PDF</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ============ SKILLS & EDUCATION ============ -->
+    <section id="skills" class="section">
+      <h2 class="reveal">Skills, education &amp; certifications</h2>
+      <p class="section-sub reveal">Grounded in a formal IT degree and networking certifications —
+        and ready to run cloud infrastructure and IT operations from day one.</p>
+
+      <div class="edu-card reveal">
+        <div class="edu-head">
+          <span class="edu-icon">🎓</span>
+          <div>
+            <h3>BSc (Honours) — Information Technology</h3>
+            <p>University of Khartoum</p>
+          </div>
+        </div>
+        <ul class="cert-list">
+          <li>
+            <span class="cert-icon">🌐</span>
+            <div><strong>CompTIA Network+</strong><span>Networks Plus — networking fundamentals, protocols, and troubleshooting</span></div>
+          </li>
+          <li>
+            <span class="cert-icon">🧭</span>
+            <div><strong>CCNA — Preparation Programme</strong><span>Pearson — routing &amp; switching, IP services, and security fundamentals</span></div>
+          </li>
+          <li>
+            <span class="cert-icon">🔐</span>
+            <div><strong>Information Security</strong><span>Security principles, threat awareness, and secure practices</span></div>
+          </li>
+          <li>
+            <span class="cert-icon">📊</span>
+            <div><strong>Google — Introduction to Data Science</strong><span>Data analysis foundations for infrastructure and ops decisions</span></div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="stack-groups">
+        <div class="stack-group reveal">
+          <h3>☁️ Cloud &amp; Infrastructure</h3>
+          <ul><li>Linux servers</li><li>CI/CD pipelines</li><li>GitHub Actions</li><li>Caddy reverse proxy</li><li>Static hosting (GH Pages)</li><li>PWA / Service Workers</li><li>Deployment runbooks</li><li>Release engineering</li></ul>
+        </div>
+        <div class="stack-group reveal">
+          <h3>🌐 Networking &amp; Security</h3>
+          <ul><li>Network+ fundamentals</li><li>CCNA (Pearson prep)</li><li>Information security</li><li>JWT + bcrypt auth</li><li>TLS / reverse proxy</li><li>Offline sync &amp; queues</li></ul>
+        </div>
+        <div class="stack-group reveal">
+          <h3>📊 Data &amp; Analytics</h3>
+          <ul><li>SQL / SQLite</li><li>Prisma ORM</li><li>Dexie.js (IndexedDB)</li><li>CSV / XLSX pipelines</li><li>Recharts dashboards</li><li>Intro to data science (Google)</li></ul>
+        </div>
+        <div class="stack-group reveal">
+          <h3>🛠️ Software Engineering</h3>
+          <ul><li>TypeScript</li><li>Next.js / React 19</li><li>Vite</li><li>Three.js</li><li>Tailwind CSS</li><li>Capacitor — Android APKs</li><li>i18n (AR / EN)</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section id="contact" class="section">
+      <div class="contact-card reveal">
+        <div class="cloud-float" aria-hidden="true">☁️</div>
+        <h2>Let’s ship something reliable</h2>
+        <p>Cloud infrastructure that doesn’t page you at 3 a.m., networks that hold, apps that work
+           on a desert road — if that sounds like your problem, my inbox is open.</p>
+        <div class="contact-actions">
+          <a class="btn primary big" href="mailto:ahmedabohamud@gmail.com?subject=Hello%20Ahmed">✉️ ahmedabohamud@gmail.com</a>
+          <button class="btn ghost big" type="button" id="copy-email" data-email="ahmedabohamud@gmail.com">Copy address</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 Ahmed Abohamud — DevOps Specialist · Built with Three.js clouds ☁ · Hosted on GitHub Pages</p>
+  </footer>
+
+  <!-- ============ LIGHTBOX ============ -->
+  <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Screenshot gallery">
+    <button class="lb-close" type="button" aria-label="Close">✕</button>
+    <button class="lb-prev" type="button" aria-label="Previous screenshot">‹</button>
+    <figure class="lb-stage">
+      <img id="lb-img" alt="" />
+      <figcaption><span id="lb-cap"></span><span id="lb-count"></span></figcaption>
+    </figure>
+    <button class="lb-next" type="button" aria-label="Next screenshot">›</button>
+  </div>
+
+  <!-- ============ VIDEO MODAL ============ -->
+  <div class="video-modal" id="video-modal" hidden role="dialog" aria-modal="true" aria-label="Launch film">
+    <button class="vm-close" type="button" aria-label="Close">✕</button>
+    <video id="vm-player" controls playsinline></video>
+  </div>
+
+  <div class="toast" id="toast" hidden>Copied ✓</div>
+
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>

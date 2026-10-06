@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>D:\DEV — Development Environment &amp; Capacitor Android Guide</title>
+<style>
+  /* ============ PAGE GEOMETRY ============ */
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  html, body { margin: 0; padding: 0; background: #ffffff; }
+  body { font-family: "Segoe UI", "Segoe UI Variable Text", Arial, sans-serif; color: #16302c; }
+
+  .page {
+    width: 210mm; height: 297mm;
+    position: relative;
+    background: #ffffff;
+    padding: 15mm 15mm 22mm;
+    page-break-after: always; break-after: page;
+    page-break-inside: avoid; break-inside: avoid;
+  }
+  .page:last-child { page-break-after: auto; break-after: auto; }
+
+  /* browser preview: scale to fit viewport */
+  @media screen {
+    html { height: auto; display: flex; justify-content: center; background: #dfe9e6; }
+    body { transform-origin: top center; scale: min(1, calc(100vw / 794)); margin: 0 auto; }
+    .page { margin-bottom: 8px; box-shadow: 0 2px 24px rgba(11,79,74,.18); }
+  }
+
+  /* ============ PALETTE (teal family + neutrals, ≤5) ============ */
+  /* primary #0f766e · deep #0b4f4a · tint #eef7f5 · ink #16302c · muted #5b7470 · warn #b45309 */
+
+  /* ============ RUNNING FOOTER ============ */
+  .foot {
+    position: absolute; left: 15mm; right: 15mm; bottom: 9mm;
+    border-top: .5pt solid #cfe3df; padding-top: 2.6mm;
+    display: flex; justify-content: space-between;
+    font-size: 7.5pt; letter-spacing: 1.5px; color: #5b7470; text-transform: uppercase;
+  }
+
+  /* ============ SECTION HEADER ============ */
+  .sec { display: flex; align-items: baseline; gap: 4.5mm; margin-bottom: 7mm; }
+  .sec .num {
+    font-size: 26pt; font-weight: 700; color: #0f766e; line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .sec .t { font-size: 17.5pt; font-weight: 700; color: #0b4f4a; line-height: 1.15; letter-spacing: .2px; }
+  .sec .s { font-size: 9pt; color: #5b7470; margin-top: 1.2mm; letter-spacing: .3px; }
+  .sec-rule { border: 0; border-top: .6pt solid #0f766e; margin: 0 0 6.5mm; opacity: .45; }
+
+  /* ============ TYPO ============ */
+  p { font-size: 10.2pt; line-height: 1.6; margin: 0 0 3.4mm; }
+  p.lead { font-size: 11pt; color: #0b4f4a; }
+  b { color: #0b4f4a; }
+  .ar { unicode-bidi: isolate; }
+  .warn { color: #b45309; font-weight: 600; }
+
+  /* ============ CODE BLOCKS ============ */
+  pre {
+    background: #0c2622; color: #d7ece8; border-radius: 2.2mm;
+    padding: 5mm 5.5mm; margin: 0 0 4.6mm;
+    font-family: Consolas, "Cascadia Mono", "Courier New", monospace;
+    font-size: 8.8pt; line-height: 1.58; white-space: pre-wrap; overflow-wrap: break-word;
+  }
+  pre .p { color: #8fd4ca; }          /* prompt */
+  pre .c { color: #6f9d95; }          /* comment */
+  pre .k { color: #ffd9a8; }          /* highlight / key value */
+  code.inline {
+    font-family: Consolas, "Cascadia Mono", monospace; font-size: 9.2pt;
+    background: #eef7f5; color: #0b4f4a; padding: .4mm 1.6mm; border-radius: 1mm;
+  }
+
+  /* ============ TABLES ============ */
+  table { width: 100%; border-collapse: collapse; margin: 0 auto 4mm; }
+  th {
+    background: #0f766e; color: #ffffff; text-align: left;
+    font-size: 7.6pt; letter-spacing: 1.2px; text-transform: uppercase;
+    padding: 2.7mm 3.2mm; font-weight: 600;
+  }
+  td { font-size: 9.2pt; line-height: 1.5; padding: 2.6mm 3.2mm; border-bottom: .5pt solid #d9e8e4; vertical-align: top; }
+  tr:nth-child(even) td { background: #f4faf8; }
+  td .path { font-family: Consolas, "Cascadia Mono", monospace; font-size: 8.2pt; color: #0b4f4a; }
+  .pill { display: inline-block; font-size: 7.6pt; font-weight: 700; letter-spacing: .8px; padding: .7mm 2.4mm; border-radius: 999px; }
+  .ok  { background: #e2f3ef; color: #0b4f4a; }
+  .no  { background: #fbeedd; color: #b45309; }
+
+  /* ============ TIP CARDS ============ */
+  .tips { display: flex; flex-wrap: wrap; gap: 4.6mm; }
+  .tip { flex: 1 1 44%; min-width: 44%; background: #f4faf8; border: .5pt solid #cfe3df; border-radius: 2.2mm; padding: 4.4mm 4.8mm; }
+  .tip .n { font-size: 14pt; font-weight: 700; color: #0f766e; margin-right: 2mm; }
+  .tip .h { font-size: 10pt; font-weight: 700; color: #0b4f4a; }
+  .tip p { font-size: 9.1pt; margin: 1.6mm 0 0; line-height: 1.55; }
+
+  .callout {
+    background: #eef7f5; border-left: 1.6mm solid #0f766e; border-radius: 0 2.2mm 2.2mm 0;
+    padding: 4.2mm 5mm; margin: 0 0 5mm; font-size: 9.8pt; line-height: 1.58;
+  }
+  .callout.amber { border-left-color: #b45309; background: #fdf6ec; }
+  .callout .lbl { display: block; font-size: 7.6pt; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #0f766e; margin-bottom: 1.2mm; }
+  .callout.amber .lbl { color: #b45309; }
+
+  /* ============ DIAGRAM 1 : ARCHITECTURE ============ */
+  .diag { margin: 0 0 4mm; }
+  .dnode { background: #eef7f5; border: .7pt solid #0f766e; border-radius: 2.2mm; padding: 4.2mm 4.8mm; }
+  .dnode .dt { font-size: 10.4pt; font-weight: 700; color: #0b4f4a; }
+  .dnode .dd { font-size: 8.8pt; color: #5b7470; margin-top: 1mm; line-height: 1.5; }
+  .dnode.wide { width: 118mm; }
+  .dnode.narrow { width: 52mm; }
+  .drow { display: flex; gap: 6mm; align-items: stretch; justify-content: center; }
+  .darrow { display: flex; align-items: center; justify-content: center; gap: 10mm; margin: 2.6mm 0; }
+  .darrow .lbl { font-size: 8.4pt; color: #0b4f4a; font-weight: 600; }
+  .darrow .stem { color: #0f766e; font-size: 10pt; line-height: 1; }
+  .dlabel { font-size: 8.4pt; color: #5b7470; text-align: center; margin: 1mm 0 2.4mm; }
+
+  /* ============ DIAGRAM 2 : PIPELINE STEPS ============ */
+  .flow { display: flex; align-items: stretch; gap: 0; margin: 0 0 4.5mm; }
+  .fstep { flex: 1; background: #eef7f5; border: .7pt solid #0f766e; border-radius: 2mm; padding: 3.6mm 3mm; }
+  .fstep .fn { font-size: 7.6pt; font-weight: 700; letter-spacing: 1.3px; color: #0f766e; }
+  .fstep .ft { font-family: Consolas, "Cascadia Mono", monospace; font-size: 9pt; font-weight: 700; color: #0b4f4a; margin-top: 1mm; }
+  .fstep .fd { font-size: 8pt; color: #5b7470; margin-top: 1mm; line-height: 1.4; }
+  .fjoin { display: flex; align-items: center; padding: 0 1.6mm; color: #0f766e; font-size: 11pt; font-weight: 700; }
+
+  /* ============ DIAGRAM 3 : OPTION PANELS ============ */
+  .opts { display: flex; gap: 5mm; margin: 0 0 4.5mm; }
+  .opt { flex: 1; border: .7pt solid #cfe3df; border-radius: 2.4mm; overflow: visible; }
+  .opt header { background: #0f766e; color: #fff; font-size: 9pt; font-weight: 700; letter-spacing: .6px; padding: 2.2mm 3.4mm; border-radius: 2.4mm 2.4mm 0 0; }
+  .opt .obody { padding: 4.2mm; }
+  .mini { display: flex; align-items: center; justify-content: center; gap: 3mm; margin: 0 0 2.6mm; }
+  .mnode { background: #eef7f5; border: .6pt solid #0f766e; border-radius: 1.8mm; padding: 2.4mm 3mm; font-size: 7.6pt; font-weight: 600; color: #0b4f4a; text-align: center; line-height: 1.3; }
+  .marr { color: #0f766e; font-size: 9pt; }
+  .opt p { font-size: 8.8pt; line-height: 1.55; margin: 0; }
+  .opt .tag { font-size: 7.6pt; font-weight: 700; letter-spacing: .9px; text-transform: uppercase; color: #0f766e; margin-bottom: 1.6mm; }
+
+  /* ============ COVER ============ */
+  .cover { padding: 18mm 17mm 16mm; }
+  .cv-top { display: flex; justify-content: space-between; align-items: baseline; }
+  .cv-kicker { font-size: 9.5pt; font-weight: 700; letter-spacing: 3.2px; color: #0f766e; text-transform: uppercase; }
+  .cv-date { font-size: 9.5pt; letter-spacing: 2.4px; color: #5b7470; text-transform: uppercase; }
+  .cv-rule { border: 0; border-top: 1pt solid #0f766e; margin: 7mm 0 0; }
+  .cv-hero { margin-top: 24mm; }
+  .cv-hero .h1 { font-size: 44pt; line-height: 1.08; font-weight: 700; color: #0b4f4a; letter-spacing: .5px; }
+  .cv-hero .h2 { font-size: 22pt; line-height: 1.25; font-weight: 300; color: #5b7470; margin-top: 6mm; letter-spacing: .5px; }
+  .cv-ar { margin-top: 8mm; font-size: 14pt; color: #0f766e; font-weight: 600; }
+  .cv-summary { margin-top: 16mm; border-left: 1.6mm solid #0f766e; padding: 2mm 0 2mm 6mm; max-width: 150mm; }
+  .cv-summary .k { font-size: 8pt; font-weight: 700; letter-spacing: 2.4px; color: #0f766e; text-transform: uppercase; margin-bottom: 2mm; }
+  .cv-summary p { font-size: 11.5pt; line-height: 1.6; color: #16302c; margin: 0; }
+  .cv-meta { position: absolute; left: 17mm; right: 17mm; bottom: 20mm; border-top: .5pt solid #cfe3df; padding-top: 5mm; display: flex; gap: 12mm; }
+  .cv-meta .cell .k { font-size: 7.6pt; font-weight: 700; letter-spacing: 1.7px; color: #5b7470; text-transform: uppercase; margin-bottom: 1.6mm; }
+  .cv-meta .cell .v { font-size: 10.5pt; font-weight: 600; color: #0b4f4a; line-height: 1.35; }
+  .cv-ghost { position: absolute; right: 15mm; bottom: 34mm; font-size: 130pt; font-weight: 700; color: rgba(15,118,110,.055); line-height: 1; letter-spacing: 4px; }
+
+  /* misc */
+  .grid2 { display: flex; gap: 5mm; }
+  .grid2 > * { flex: 1; }
+  ul.tight { margin: 0 0 3mm; padding-left: 5.5mm; }
+  ul.tight li { font-size: 9.4pt; line-height: 1.55; margin-bottom: 1.4mm; }
+</style>
+</head>
+<body>
+
+<!-- ================= PAGE 1 · COVER ================= -->
+<div class="page cover">
+  <div class="cv-top">
+    <div class="cv-kicker">D:\DEV · Developer Guide</div>
+    <div class="cv-date">October 2026</div>
+  </div>
+  <hr class="cv-rule">
+  <div class="cv-hero">
+    <div class="h1">DEVELOPMENT<br>ENVIRONMENT</div>
+    <div class="h2">&amp; Capacitor<br>Android Packing</div>
+    <div class="cv-ar ar">نظام المدرسة — مدرسة حسين أبوهامد الأهلية</div>
+  </div>
+  <div class="cv-summary">
+    <div class="k">About this guide</div>
+    <p>How the offline school-management system is wired — Node.js, Express and SQLite on the
+    desktop with a vanilla-JS Arabic RTL front-end — how to run it in the browser, and how to
+    wrap it into an Android APK with Capacitor.</p>
+  </div>
+  <div class="cv-ghost">D:\&gt;</div>
+  <div class="cv-meta">
+    <div class="cell"><div class="k">Project</div><div class="v">School_system</div></div>
+    <div class="cell"><div class="k">Stack</div><div class="v">Node 24 · Express · SQLite</div></div>
+    <div class="cell"><div class="k">Serves on</div><div class="v">localhost:6000</div></div>
+    <div class="cell"><div class="k">Android ID</div><div class="v">com.school.nidham</div></div>
+  </div>
+</div>
+
+<!-- ================= PAGE 2 · ENVIRONMENT ================= -->
+<div class="page">
+  <div class="sec"><div class="num">01</div><div><div class="t">The Environment</div><div class="s">What is on this machine, and where it lives</div></div></div>
+  <hr class="sec-rule">
+
+  <p class="lead">Everything happens inside <b>D:\DEV</b> in Git Bash on Windows. The active project
+  is <b>School_system</b> — the only one with a ready <code class="inline">capacitor.config.ts</code>.</p>
+
+  <p style="font-size:9.2pt;font-weight:700;color:#0b4f4a;margin-bottom:2mm;">PROJECTS IN D:\DEV</p>
+  <table>
+    <tr><th style="width:34mm;">Folder</th><th>What it is</th></tr>
+    <tr><td><span class="path">School_system/</span></td><td><b>Active project</b> — offline Arabic school management (Express + SQLite, vanilla-JS RTL front-end)</td></tr>
+    <tr><td><span class="path">Chromaflow/</span></td><td>Next.js app — already has a working <span class="path">android/</span> Capacitor build</td></tr>
+    <tr><td><span class="path">Enjazatec app/</span></td><td>Next.js + Prisma project (Bun)</td></tr>
+    <tr><td><span class="path">Labatak/ · open design/</span></td><td>Other design and project folders</td></tr>
+    <tr><td><span class="path">Android-build-tools/</span></td><td>Empty — the SDK actually lives at <span class="path">%LOCALAPPDATA%\Android\Sdk</span></td></tr>
+  </table>
+
+  <p style="font-size:9.2pt;font-weight:700;color:#0b4f4a;margin-bottom:2mm;">TOOLCHAIN — INSTALLED VS MISSING</p>
+  <table>
+    <tr><th style="width:40mm;">Tool</th><th style="width:24mm;">Status</th><th>Detail</th></tr>
+    <tr><td>Node.js + npm</td><td><span class="pill ok">READY</span></td><td>Node <span class="path">v24.20.0</span>, npm <span class="path">11.19.0</span></td></tr>
+    <tr><td>Android SDK</td><td><span class="pill ok">READY</span></td><td><span class="path">C:\Users\Ahmed\AppData\Local\Android\Sdk</span> — platforms android-37, build-tools 36.0.0</td></tr>
+    <tr><td><code class="inline">ANDROID_HOME</code></td><td><span class="pill no">MISSING</span></td><td>Environment variable must be set before Gradle builds — §04</td></tr>
+    <tr><td>JDK (Java)</td><td><span class="pill no">MISSING</span></td><td>JDK 21 needed for Gradle / Capacitor 7+ — §04</td></tr>
+    <tr><td>Capacitor packages</td><td><span class="pill no">MISSING</span></td><td>Not yet in School_system — §05 installs them</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="lbl">Shell convention</span>
+    All commands in this guide use <b>Git Bash</b> syntax. Where CMD differs
+    (<code class="inline">set PORT=6060 &amp;&amp; npm start</code> instead of
+    <code class="inline">PORT=6060 npm start</code>), it is noted inline.
+  </div>
+
+  <div class="foot"><span>D:\DEV — Developer Guide · School_system</span><span>02</span></div>
+</div>
+
+<!-- ================= PAGE 3 · ARCHITECTURE ================= -->
+<div class="page">
+  <div class="sec"><div class="num">02</div><div><div class="t">How the App Works in the Browser</div><div class="s">Architecture — who serves what, to whom</div></div></div>
+  <hr class="sec-rule">
+
+  <div class="diag">
+    <div class="drow">
+      <div class="dnode wide">
+        <div class="dt">Browser — Chrome / Edge</div>
+        <div class="dd">UI only · opens <b>http://localhost:6000</b> · vanilla JS, Arabic RTL, hash router</div>
+      </div>
+      <div class="dnode narrow">
+        <div class="dt">client/ — static files</div>
+        <div class="dd">index.html&nbsp;· js/app.js&nbsp;· screens/&nbsp;· styles/&nbsp;· bundled Cairo font</div>
+      </div>
+    </div>
+    <div class="darrow"><span class="lbl">GET / → static files</span><span class="stem">▼</span><span class="lbl">fetch /api/* → JSON envelope</span></div>
+    <div class="dlabel">{ success, data, error } — every endpoint answers in this shape</div>
+    <div class="drow">
+      <div class="dnode wide">
+        <div class="dt">Express server — server/app.js : 6000</div>
+        <div class="dd">routes/ students · attendance · homework · payments · import · classes · dashboard · export</div>
+      </div>
+    </div>
+    <div class="darrow"><span class="stem">▼</span><span class="lbl">prepared statements · better-sqlite3</span></div>
+    <div class="drow">
+      <div class="dnode wide">
+        <div class="dt">data/school.db — SQLite file</div>
+        <div class="dd">Created by <b>npm run setup</b> · 24 classes seeded · students, attendance, homework, payments</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout amber">
+    <span class="lbl">The one fact that shapes everything</span>
+    The <b>API and the database live in Node on your PC</b> — the browser is only the UI.
+    Inside an Android APK there is no Node.js and no Express, so every <code class="inline">/api</code>
+    call would fail. This is resolved in §06 — read it before shipping.
+  </div>
+
+  <div class="tips">
+    <div class="tip"><span class="n">✓</span><span class="h">Fully offline</span><p>All data lives in one local SQLite file; the Cairo Arabic font is bundled — zero internet needed at runtime.</p></div>
+    <div class="tip"><span class="n">✓</span><span class="h">Two languages, one rule</span><p>UI language is Arabic (RTL); code language is English&nbsp;— files, variables, comments.</p></div>
+  </div>
+
+  <div class="foot"><span>D:\DEV — Developer Guide · School_system</span><span>03</span></div>
+</div>
+
+<!-- ================= PAGE 4 · RUN IN BROWSER ================= -->
+<div class="page">
+  <div class="sec"><div class="num">03</div><div><div class="t">Running in the Browser</div><div class="s">From clone to working app in three commands</div></div></div>
+  <hr class="sec-rule">
+
+<pre><span class="c"># first time only</span>
+<span class="p">$</span> cd /d/DEV/School_system
+<span class="p">$</span> npm install            <span class="c"># express + better-sqlite3</span>
+<span class="p">$</span> npm run setup          <span class="c"># create data/school.db + seed the 24 classes</span>
+
+<span class="c"># every day</span>
+<span class="p">$</span> npm start              <span class="c"># → http://localhost:6000</span>
+<span class="p">$</span> npm run seed:demo      <span class="c"># optional: Arabic demo data for testing</span></pre>
+
+  <p>Then open <b>http://localhost:6000</b>. The database, the server and the UI are all local —
+  nothing leaves the machine.</p>
+
+  <div class="tips">
+    <div class="tip">
+      <span class="n">1</span><span class="h">Port 6000 is “restricted” in Chrome / Edge</span>
+      <p>It is the X11 port, so browsers block it with <b>ERR_UNSAFE_PORT</b>. Fix: run on another
+      port — <code class="inline">PORT=6060 npm start</code> — or launch Chrome with
+      <code class="inline">--explicitly-allowed-ports=6000</code>.</p>
+    </div>
+    <div class="tip">
+      <span class="n">2</span><span class="h">Open it from your phone on the same Wi-Fi</span>
+      <p>Find the PC’s IPv4 with <code class="inline">ipconfig</code> (e.g. 192.168.1.20), then browse
+      <code class="inline">http://192.168.1.20:6000</code>. If blocked, allow the port once as admin:
+      <code class="inline">netsh advfirewall firewall add rule name="Node 6000" dir=in action=allow protocol=TCP localport=6000</code></p>
+    </div>
+    <div class="tip">
+      <span class="n">3</span><span class="h">No hot reload on the server</span>
+      <p>Restart <code class="inline">npm start</code> after editing <b>server/</b>. Client files under
+      <b>client/</b> need only a browser refresh.</p>
+    </div>
+    <div class="tip">
+      <span class="n">4</span><span class="h">data/school.db is the whole system</span>
+      <p>Every student, payment and attendance record lives in this single file — back it up
+      regularly and never commit it.</p>
+    </div>
+  </div>
+
+  <div class="foot"><span>D:\DEV — Developer Guide · School_system</span><span>04</span></div>
+</div>
+
+<!-- ================= PAGE 5 · CAPACITOR SETUP ================= -->
+<div class="page">
+  <div class="sec"><div class="num">04</div><div><div class="t">Capacitor — Big Picture &amp; One-Time Setup</div><div class="s">The toolchain you install once, then forget</div></div></div>
+  <hr class="sec-rule">
+
+  <div class="flow">
+    <div class="fstep"><div class="fn">STEP 1</div><div class="ft">client/</div><div class="fd">your HTML, CSS, JS — no bundler</div></div>
+    <div class="fjoin">→</div>
+    <div class="fstep"><div class="fn">COPY</div><div class="ft">client/dist/</div><div class="fd">build:web script — the webDir Capacitor reads</div></div>
+    <div class="fjoin">→</div>
+    <div class="fstep"><div class="fn">CAP SYNC</div><div class="ft">android/</div><div class="fd">native project generated by cap add</div></div>
+    <div class="fjoin">→</div>
+    <div class="fstep"><div class="fn">GRADLE</div><div class="ft">app-debug.apk</div><div class="fd">installable on any Android device</div></div>
+  </div>
+
+  <div class="callout">
+    <span class="lbl">One-time toolchain — do this before touching Capacitor</span>
+    <b>a) Install a JDK.</b> Easiest: install <b>Android Studio</b> (it bundles its own JDK) —
+    developer.android.com/studio. Or standalone <b>Eclipse Temurin JDK 21</b> from adoptium.net.<br>
+    <b>b) Set environment variables</b> (Windows → Environment Variables, or in Git Bash
+    <code class="inline">~/.bashrc</code>):
+  </div>
+
+<pre><span class="p">$</span> export ANDROID_HOME=<span class="k">"C:\\Users\\Ahmed\\AppData\\Local\\Android\\Sdk"</span>
+<span class="p">$</span> export JAVA_HOME=<span class="k">"C:\\Program Files\\Eclipse Adoptium\\jdk-21"</span>   <span class="c"># adjust to your install</span>
+<span class="p">$</span> export PATH=<span class="k">"$PATH:$ANDROID_HOME/platform-tools"</span>                <span class="c"># gives you `adb`</span>
+
+<span class="c"># verify — both must answer before anything else works</span>
+<span class="p">$</span> java -version      <span class="c"># should print 21.x</span>
+<span class="p">$</span> adb version        <span class="c"># should print the SDK version</span></pre>
+
+  <div class="tips">
+    <div class="tip">
+      <span class="n">✓</span><span class="h">Your SDK is already complete</span>
+      <p>Platforms and build-tools are installed — after setting the two variables there is nothing
+      left to download from SDK Manager.</p>
+    </div>
+    <div class="tip">
+      <span class="n">✓</span><span class="h">First Gradle build needs internet</span>
+      <p>Gradle downloads itself + dependencies once; after that, builds work fully offline —
+      like the app itself.</p>
+    </div>
+  </div>
+
+  <div class="foot"><span>D:\DEV — Developer Guide · School_system</span><span>05</span></div>
+</div>
+
+<!-- ================= PAGE 6 · WRAP THE APP ================= -->
+<div class="page">
+  <div class="sec"><div class="num">05</div><div><div class="t">Wrapping the App for Android</div><div class="s">Install · build the web assets · generate · compile</div></div></div>
+  <hr class="sec-rule">
+
+  <p><b>1 — Install Capacitor.</b> The config file already knows the app:
+  <code class="inline">appId: com.school.nidham</code>, name
+  <span class="ar">مدرسة حسين أبوهامد الأهلية</span>, <code class="inline">webDir: client/dist</code>,
+  <code class="inline">androidScheme: https</code>.</p>
+
+<pre><span class="p">$</span> cd /d/DEV/School_system
+<span class="p">$</span> npm install @capacitor/core @capacitor/cli @capacitor/android
+<span class="p">$</span> npm install @capacitor/splash-screen @capacitor/haptics @capacitor/filesystem @capacitor/share  <span class="c"># optional plugins</span></pre>
+
+  <p><b>2 — Copy the web assets into client/dist.</b> There is no bundler, so “build” means
+  <i>copy</i>. Save as <code class="inline">scripts/build-web.js</code> and add
+  <code class="inline">"build:web": "node scripts/build-web.js"</code> to package.json scripts:</p>
+
+<pre><span class="c">// scripts/build-web.js — copy client/ into client/dist/ for Capacitor</span>
+const fs = require('fs'), path = require('path');
+const src = path.join(__dirname, '..', 'client');
+const out = path.join(src, 'dist');
+fs.rmSync(out, { recursive: true, force: true });
+fs.mkdirSync(out, { recursive: true });
+for (const e of ['index.html', 'js', 'screens', 'components', 'styles', 'assets'])
+  fs.cpSync(path.join(src, e), path.join(out, e), { recursive: true });
+console.log('web assets copied to client/dist');</pre>
+
+  <p><b>3 — Generate the Android project, 4 — compile the APK.</b></p>
+
+<pre><span class="p">$</span> npm run build:web          <span class="c"># client/ → client/dist/  (run after every client change)</span>
+<span class="p">$</span> npx cap add android        <span class="c"># generates android/  (first time only)</span>
+<span class="p">$</span> npx cap sync android       <span class="c"># copies dist + plugins into the project</span>
+<span class="p">$</span> npx cap open android       <span class="c"># Android Studio → Build APK(s)</span>
+<span class="c"># …or command line only:</span>
+<span class="p">$</span> cd android &amp;&amp; ./gradlew assembleDebug
+<span class="c"># APK appears at android/app/build/outputs/apk/debug/app-debug.apk</span>
+<span class="p">$</span> adb install -r app/build/outputs/apk/debug/app-debug.apk</pre>
+
+  <div class="callout">
+    <span class="lbl">The habit that saves an hour</span>
+    Capacitor <b>copies</b> files, it does not link them. After <i>any</i> client change:
+    <code class="inline">npm run build:web</code> → <code class="inline">npx cap sync android</code> →
+    rebuild. Forgetting <b>sync</b> is the #1 “why isn’t my change in the app” cause.
+  </div>
+
+  <div class="foot"><span>D:\DEV — Developer Guide · School_system</span><span>06</span></div>
+</div>
+
+<!-- ================= PAGE 7 · THE /API PROBLEM ================= -->
+<div class="page">
+  <div class="sec"><div class="num">06</div><div><div class="t">The /api Problem — Read Before Shipping</div><div class="s">Why the APK cannot talk to your database as-is</div></div></div>
+  <hr class="sec-rule">
+
+  <div class="callout amber">
+    <span class="lbl">What breaks</span>
+    Inside the APK the WebView loads <code class="inline">client/dist</code> from
+    <code class="inline">https://localhost</code> — there is <b>no Node.js, no Express and no
+    better-sqlite3 in the APK</b>. Every <code class="inline">fetch('/api/…')</code> in
+    <code class="inline">client/js/api.js</code> fails. Pick one of two paths:
+  </div>
+
+  <div class="opts">
+    <div class="opt">
+      <header>Option A — LAN server · ~5 minutes</header>
+      <div class="obody">
+        <div class="mini">
+          <div class="mnode">Phone<br>APK WebView</div><div class="marr">→</div>
+          <div class="mnode">PC server<br>Express :6000</div><div class="marr">→</div>
+          <div class="mnode">school.db<br>on the PC</div>
+        </div>
+        <div class="tag">Config only — same code</div>
+        <p>Point the WebView at your dev server over Wi-Fi. Needs the PC on and both devices on the
+        same network; data stays on the PC. Perfect for demos and quick testing.</p>
+      </div>
+    </div>
+    <div class="opt">
+      <header>Option B — On-device SQLite · the real product</header>
+      <div class="obody">
+        <div class="mini">
+          <div class="mnode">Phone<br>APK WebView</div><div class="marr">→</div>
+          <div class="mnode">JS data layer</div><div class="marr">→</div>
+          <div class="mnode">SQLite<br>on the phone</div>
+        </div>
+        <div class="tag">Days of work — true offline</div>
+        <p>Rewrite the data layer onto <code class="inline">@capacitor-community/sqlite</code> —
+        swap the fetch calls in <code class="inline">api.js</code> for local queries. No server
+        needed; data lives on the device. This is the end goal for an offline-first school app.</p>
+      </div>
+    </div>
+  </div>
+
+  <table>
+    <tr><th></th><th>A — LAN server</th><th>B — on-device SQLite</th></tr>
+    <tr><td><b>Effort</b></td><td>~5 minutes, config only</td><td>Days — rewrite api.js + server logic as client services</td></tr>
+    <tr><td><b>Works without PC?</b></td><td>No</td><td>Yes</td></tr>
+    <tr><td><b>Data location</b></td><td>PC — data/school.db</td><td>Phone storage</td></tr>
+    <tr><td><b>Best for</b></td><td>Demos, quick testing</td><td>The real product</td></tr>
+  </table>
+
+  <p style="font-size:9.2pt;font-weight:700;color:#0b4f4a;margin-bottom:2mm;">OPTION A SETUP — capacitor.config.ts</p>
+<pre><span class="k">server:</span> {
+  androidScheme: <span class="k">'https'</span>,
+  url: <span class="k">'http://192.168.1.20:6000'</span>,   <span class="c">// your PC's LAN IP — phone &amp; PC on same Wi-Fi</span>
+  cleartext: <span class="k">true</span>,                    <span class="c">// required because http:// (not https)</span>
+},</pre>
+
+  <p>Then <code class="inline">npm run build:web</code> → <code class="inline">npx cap sync android</code>
+  → rebuild. <span class="warn">Remove <code class="inline">url</code> + <code class="inline">cleartext</code>
+  before the final build</span>&nbsp;— or the APK will always point at that one PC.</p>
+
+  <div class="foot"><span>D:\DEV — Developer Guide · School_system</span><span>07</span></div>
+</div>
+
+<!-- ================= PAGE 8 · DEVICE TESTING & RELEASE ================= -->
+<div class="page">
+  <div class="sec"><div class="num">07</div><div><div class="t">Device Testing &amp; Release</div><div class="s">Faster loops while developing, then signing for production</div></div></div>
+  <hr class="sec-rule">
+
+  <p style="font-size:9.2pt;font-weight:700;color:#0b4f4a;margin-bottom:2mm;">FASTER DEVICE TESTING</p>
+  <div class="tips">
+    <div class="tip">
+      <span class="n">1</span><span class="h">Wireless ADB — no cable</span>
+      <p>Android 11+: <i>Developer options → Wireless debugging → Pair device</i>, then
+      <code class="inline">adb pair &lt;ip:port&gt;</code> and <code class="inline">adb connect &lt;ip:port&gt;</code>.</p>
+    </div>
+    <div class="tip">
+      <span class="n">2</span><span class="h">Live reload via Option A</span>
+      <p>With <code class="inline">server.url</code> set, editing client files and refreshing the app
+      shows changes immediately — the APK is just a browser aimed at your dev server.</p>
+    </div>
+    <div class="tip">
+      <span class="n">3</span><span class="h">See inside the WebView</span>
+      <p>Logs: <code class="inline">adb logcat | grep -i cap</code>. DOM + console:
+      open <code class="inline">chrome://inspect</code> in desktop Chrome and pick the device.</p>
+    </div>
+    <div class="tip">
+      <span class="n">4</span><span class="h">Splash screen is configured</span>
+      <p><code class="inline">launchShowDuration: 1200</code> is already in the config — but it is
+      silently ignored unless <code class="inline">@capacitor/splash-screen</code> is installed.</p>
+    </div>
+  </div>
+
+  <p style="font-size:9.2pt;font-weight:700;color:#0b4f4a;margin-bottom:2mm;">RELEASE BUILD — SIGNED APK</p>
+<pre><span class="c"># one-time: create a keystore — keep it + its passwords safe, losing them means no more updates</span>
+<span class="p">$</span> keytool -genkey -v -keystore school-release.keystore -alias school -keyalg RSA -keysize 2048 -validity 10000
+
+<span class="c"># wire it into android/app/build.gradle (signingConfigs + release buildType), then:</span>
+<span class="p">$</span> ./gradlew assembleRelease
+<span class="c"># android/app/build/outputs/apk/release/app-release.apk</span></pre>
+
+  <div class="callout">
+    <span class="lbl">Version bumps live in Gradle, not package.json</span>
+    Change <code class="inline">versionCode</code> / <code class="inline">versionName</code> in
+    <code class="inline">android/app/build.gradle</code> — the npm version does not propagate to the APK.
+  </div>
+
+  <div class="foot"><span>D:\DEV — Developer Guide · School_system</span><span>08</span></div>
+</div>
+
+<!-- ================= PAGE 9 · TIPS ================= -->
+<div class="page">
+  <div class="sec"><div class="num">08</div><div><div class="t">Tips Cheat-Sheet</div><div class="s">The ten things worth remembering</div></div></div>
+  <hr class="sec-rule">
+
+  <div class="tips">
+    <div class="tip"><span class="n">1</span><span class="h">Port 6000 → ERR_UNSAFE_PORT</span><p>Chrome/Edge block it. Use <code class="inline">PORT=6060 npm start</code> or the Chrome flag <code class="inline">--explicitly-allowed-ports=6000</code>.</p></div>
+    <div class="tip"><span class="n">2</span><span class="h">Back up data/school.db</span><p>It is the entire system — students, money, attendance. Never commit it to git.</p></div>
+    <div class="tip"><span class="n">3</span><span class="h">Copies, not links</span><p>Capacitor snapshots files at sync time. Client change → <code class="inline">npm run build:web</code> → <code class="inline">cap sync</code> → rebuild.</p></div>
+    <div class="tip"><span class="n">4</span><span class="h">RTL safe areas</span><p><code class="inline">viewport-fit=cover</code> is already set; if content hides behind notches, add <code class="inline">env(safe-area-inset-*)</code> padding in main.css.</p></div>
+    <div class="tip"><span class="n">5</span><span class="h">Fonts are bundled</span><p>Cairo woff2 ships inside client/assets — Arabic renders with zero internet. Keep bundling any new font.</p></div>
+    <div class="tip"><span class="n">6</span><span class="h">better-sqlite3 never runs in the WebView</span><p>It is a native Node module — on mobile it is replaced by <code class="inline">@capacitor-community/sqlite</code> (§06, Option B).</p></div>
+    <div class="tip"><span class="n">7</span><span class="h">tel: links work as-is</span><p>Phone taps already use <code class="inline">tel:</code> and maps open natively — add <code class="inline">@capacitor/haptics</code> for attendance tap feedback.</p></div>
+    <div class="tip"><span class="n">8</span><span class="h">Exports on device</span><p>CSV/Excel exports need <code class="inline">@capacitor/filesystem</code> (save to device) + <code class="inline">@capacitor/share</code> (send to WhatsApp etc.).</p></div>
+    <div class="tip"><span class="n">9</span><span class="h">Chromaflow is your reference</span><p>It already has a working android/ build in this workspace&nbsp;— peek at its launch.md for a second Capacitor example.</p></div>
+    <div class="tip"><span class="n">10</span><span class="h">Restart, don’t assume</span><p>Server edits need <code class="inline">npm start</code> again; client edits need sync + rebuild on mobile, only a refresh in the browser.</p></div>
+  </div>
+
+  <div class="foot"><span>D:\DEV — Developer Guide · School_system</span><span>09</span></div>
+</div>
+
+<!-- ================= PAGE 10 · TROUBLESHOOTING + CHEATSHEET ================= -->
+<div class="page">
+  <div class="sec"><div class="num">09</div><div><div class="t">Troubleshooting &amp; Daily Commands</div><div class="s">Symptom → cause → fix, and the two commands you type every day</div></div></div>
+  <hr class="sec-rule">
+
+  <table>
+    <tr><th style="width:52mm;">Symptom</th><th>Cause → Fix</th></tr>
+    <tr><td><span class="path">ERR_UNSAFE_PORT</span> in browser</td><td>Port 6000 blocked → <code class="inline">PORT=6060 npm start</code></td></tr>
+    <tr><td><span class="path">npx cap add android</span> fails</td><td>client/dist missing or empty → run <code class="inline">npm run build:web</code> first</td></tr>
+    <tr><td><span class="path">SDK location not found</span></td><td>Set <code class="inline">ANDROID_HOME</code>, or create android/local.properties with <code class="inline">sdk.dir=C:\\Users\\Ahmed\\AppData\\Local\\Android\\Sdk</code></td></tr>
+    <tr><td><span class="path">Unable to locate a Java Runtime</span></td><td>Install JDK 21 and set <code class="inline">JAVA_HOME</code></td></tr>
+    <tr><td>App opens, every request fails</td><td>No /api server inside the APK → §06, pick Option A or B</td></tr>
+    <tr><td>Change not visible in the APK</td><td>Forgot <code class="inline">npm run build:web</code> + <code class="inline">cap sync</code> before rebuilding</td></tr>
+    <tr><td>Phone not listed by <span class="path">adb devices</span></td><td>Enable USB debugging, accept the prompt — or pair wirelessly (§07)</td></tr>
+    <tr><td>APK can’t reach http://192.168.x.x</td><td>Missing <code class="inline">cleartext: true</code>, or firewall blocks port 6000</td></tr>
+  </table>
+
+  <div class="grid2">
+<pre style="flex:1;"><span class="c"># ── browser development ──</span>
+<span class="p">$</span> cd /d/DEV/School_system
+<span class="p">$</span> npm start
+<span class="p">$</span> PORT=6060 npm start
+<span class="p">$</span> npm run seed:demo</pre>
+<pre style="flex:1;"><span class="c"># ── capacitor / android ──</span>
+<span class="p">$</span> npm run build:web
+<span class="p">$</span> npx cap sync android
+<span class="p">$</span> npx cap open android
+<span class="p">$</span> adb logcat | grep -i cap</pre>
+  </div>
+
+  <div class="callout" style="margin-top:5mm;">
+    <span class="lbl">The 30-second loop</span>
+    <b>Browser:</b> edit → refresh. &nbsp;<b>Device (Option A):</b> edit → refresh app.
+    &nbsp;<b>Device (bundled):</b> edit → <code class="inline">npm run build:web</code> →
+    <code class="inline">npx cap sync android</code> → <code class="inline">gradlew assembleDebug</code>
+    → <code class="inline">adb install -r</code>.
+  </div>
+
+  <div class="foot"><span>D:\DEV — Developer Guide · School_system</span><span>10 · END</span></div>
+</div>
+
+</body>
+</html>
