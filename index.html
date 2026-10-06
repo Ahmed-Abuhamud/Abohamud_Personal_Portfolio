@@ -10,15 +10,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./css/style.css" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☁️</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
 </head>
 <body>
-  <canvas id="sky" aria-hidden="true"></canvas>
-  <div class="sun" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow g1" aria-hidden="true"></div>
+  <div class="bg-glow g2" aria-hidden="true"></div>
 
   <header class="nav">
     <a class="brand" href="#top">
-      <svg class="brand-cloud" viewBox="0 0 64 40" aria-hidden="true"><path d="M18 36c-7 0-12-4.5-12-11 0-5.5 4-9.5 9-10C17 8 23 4 30 4c8 0 14 5 16 11 6 .5 10 4.5 10 10 0 6.5-5 11-12 11z"/></svg>
+      <span class="brand-mark">&gt;_</span>
       <span>Ahmed&nbsp;Abohamud</span>
     </a>
     <nav class="nav-links">
@@ -44,11 +45,10 @@
       </div>
       <ul class="hero-stats reveal">
         <li><strong>5</strong><span>products shipped</span></li>
-        <li><strong>100%</strong><span>offline-first</span></li>
         <li><strong>AR + EN</strong><span>bilingual UIs</span></li>
         <li><strong>Web + APK</strong><span>every build</span></li>
       </ul>
-      <div class="scroll-hint" aria-hidden="true">☁</div>
+      <div class="scroll-hint" aria-hidden="true">▾</div>
     </section>
 
     <!-- ============ PROJECTS ============ -->
@@ -282,7 +282,7 @@
         </div>
         <div class="stack-group reveal">
           <h3>🛠️ Software Engineering</h3>
-          <ul><li>TypeScript</li><li>Next.js / React 19</li><li>Vite</li><li>Three.js</li><li>Tailwind CSS</li><li>Capacitor — Android APKs</li><li>i18n (AR / EN)</li></ul>
+          <ul><li>TypeScript</li><li>Next.js / React 19</li><li>Vite</li><li>HTML5 Canvas</li><li>Tailwind CSS</li><li>Capacitor — Android APKs</li><li>i18n (AR / EN)</li></ul>
         </div>
       </div>
     </section>
@@ -290,7 +290,7 @@
     <!-- ============ CONTACT ============ -->
     <section id="contact" class="section">
       <div class="contact-card reveal">
-        <div class="cloud-float" aria-hidden="true">☁️</div>
+        <div class="float-ico" aria-hidden="true">⚡</div>
         <h2>Let’s ship something reliable</h2>
         <p>Cloud infrastructure that doesn’t page you at 3 a.m., networks that hold, apps that work
            on a desert road — if that sounds like your problem, my inbox is open.</p>
@@ -303,7 +303,7 @@
   </main>
 
   <footer class="footer">
-    <p>© 2026 Ahmed Abohamud — DevOps Specialist · Built with Three.js clouds ☁ · Hosted on GitHub Pages</p>
+    <p>© 2026 Ahmed Abohamud — DevOps Specialist · Clean static HTML + CSS · Hosted on GitHub Pages</p>
   </footer>
 
   <!-- ============ LIGHTBOX ============ -->

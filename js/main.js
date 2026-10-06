@@ -1,6 +1,5 @@
 // Portfolio interactions: galleries, launch-film modal, copy-email, reveal-on-scroll.
 // Gallery images live in ./media/shots/<project>/ — captions match what each shot shows.
-import './clouds.js';
 
 const GALLERIES = {
   novapos: [
